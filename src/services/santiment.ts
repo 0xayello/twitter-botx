@@ -31,16 +31,16 @@ export class SantimentService {
     try {
       Logger.info('Fetching Bitcoin MVRV from Santiment');
       
-      // Use the exact dates that the API allows
-      const from = '2024-02-25T19:36:41.207Z';  // Current day
-      const to = '2025-01-25T19:36:41.207Z';    // Future date allowed by API
+      // Query the last hour to get the most recent value
+      const to = new Date();
+      const from = new Date(to.getTime() - 60 * 60 * 1000); // 1 hour ago
       
       const query = `{
         getMetric(metric: "mvrv_usd") {
           timeseriesData(
             slug: "bitcoin"
-            from: "${from}"
-            to: "${to}"
+            from: "${from.toISOString()}"
+            to: "${to.toISOString()}"
             includeIncompleteData: true
           ) {
             value

@@ -10,18 +10,21 @@
     "test-bot": "node -r ts-node/register -r dotenv/config src/scripts/test.ts"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.67",
+    "chart.js": "^4.4.1",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.3.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "twitter-api-v2": "^1.15.2",
-    "dotenv": "^16.3.1"
+    "twitter-api-v2": "^1.15.2"
   },
   "devDependencies": {
     "@types/node": "^20.8.2",
     "@types/react": "^18.2.24",
-    "typescript": "^5.2.2",
-    "ts-node": "^10.9.1",
     "eslint": "^8.50.0",
-    "eslint-config-next": "latest"
+    "eslint-config-next": "latest",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   }
 }

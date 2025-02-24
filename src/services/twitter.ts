@@ -115,4 +115,24 @@ export class TwitterService {
       throw error;
     }
   }
+
+  async postTweetWithMedia(text: string, imageBuffer: Buffer): Promise<void> {
+    try {
+      Logger.info('Uploading media to Twitter');
+      const mediaId = await this.client.v1.uploadMedia(imageBuffer, { type: 'png' });
+      
+      Logger.info('Posting tweet with media');
+      await this.client.v2.tweet({
+        text,
+        media: { media_ids: [mediaId] }
+      });
+      
+      Logger.info('Successfully posted tweet with media');
+    } catch (error) {
+      Logger.error('Failed to post tweet with media', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      throw error;
+    }
+  }
 } 

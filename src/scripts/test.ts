@@ -1,7 +1,10 @@
 import { CoinGeckoService } from '../services/coingecko';
 import { CoinmetricsService } from '../services/coinmetrics';
 import { TwitterService } from '../services/twitter';
+import { ChartService } from '../services/chart';
 import { Logger } from '../utils/logger';
+import { writeFileSync } from 'fs';
+import { join } from 'path';
 
 function getMVRVClassification(mvrv: number): string {
   if (mvrv >= 3.5) return "alarmante";
@@ -17,10 +20,14 @@ async function test() {
     // Test CoinGecko and Coinmetrics
     const coinGecko = new CoinGeckoService();
     const coinmetrics = new CoinmetricsService();
+    const chart = new ChartService();
     
-    const [dominance, mvrv] = await Promise.all([
+    // Get all data
+    Logger.info('Fetching data...');
+    const [dominance, mvrv, mvrvHistory] = await Promise.all([
       coinGecko.getBitcoinDominance(),
-      coinmetrics.getBitcoinMVRV()
+      coinmetrics.getBitcoinMVRV(),
+      coinmetrics.getMVRVHistory()
     ]);
     
     if (typeof dominance !== 'number' || isNaN(dominance)) {
@@ -31,7 +38,20 @@ async function test() {
       throw new Error('Invalid MVRV value received');
     }
     
-    Logger.info('Data fetch successful', { dominance, mvrv });
+    Logger.info('Data fetch successful', { 
+      dominance, 
+      mvrv,
+      historyPoints: mvrvHistory.values.length 
+    });
+
+    // Generate and save chart
+    Logger.info('Generating chart...');
+    const chartImage = await chart.generateMVRVChart(mvrvHistory);
+    
+    // Save chart locally for inspection
+    const testImagePath = join(process.cwd(), 'test-chart.png');
+    writeFileSync(testImagePath, chartImage);
+    Logger.info('Chart saved locally for inspection', { path: testImagePath });
 
     // Test Twitter
     Logger.info('Initializing Twitter service...');
@@ -40,9 +60,9 @@ async function test() {
     const mvrvClassification = getMVRVClassification(mvrv);
     const message = `📊 O MVRV (Market Value to Realized Value) atual é ${mvrv.toFixed(2)} - ${mvrvClassification}\n\n🔬 A dominância do Bitcoin hoje está em ${dominance.toFixed(2)}%`;
     
-    Logger.info('Attempting to post tweet...', { message });
+    Logger.info('Attempting to post tweet with chart...', { message });
     
-    await twitter.postTweet(message);
+    await twitter.postTweetWithMedia(message, chartImage);
     Logger.info('Twitter test successful');
 
   } catch (error) {
