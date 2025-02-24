@@ -1,0 +1,27 @@
+{
+  "name": "twitter-bot",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test-bot": "node -r ts-node/register -r dotenv/config src/scripts/test.ts"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "twitter-api-v2": "^1.15.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.2",
+    "@types/react": "^18.2.24",
+    "typescript": "^5.2.2",
+    "ts-node": "^10.9.1",
+    "eslint": "^8.50.0",
+    "eslint-config-next": "latest"
+  }
+}

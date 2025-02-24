@@ -1,0 +1,6 @@
+npx create-next-app@latest twitter-bot --typescript --tailwind false --app false --eslint true
+cd twitter-bot
+npm install twitter-api-v2 dotenv 
+npm install 
+npm run test-bot 
+ls -la .env 
