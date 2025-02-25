@@ -19,7 +19,7 @@ export default async function handler(
     });
 
     // Verify request method
-    if (req.method !== 'POST') {
+    if (req.method !== 'POST' && req.method !== 'GET') {
       Logger.warn('Invalid request method', { method: req.method });
       return res.status(405).json({ error: 'Method not allowed' });
     }
