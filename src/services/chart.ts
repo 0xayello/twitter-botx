@@ -44,7 +44,7 @@ export class ChartService {
       greenZoneGradient.addColorStop(1, 'rgba(0, 255, 0, 0.2)');
 
       // Set pure white background with 100% opacity
-      ctx.fillStyle = '#FFFFFF';  // Using hex for pure white
+      ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, width, height);
 
       const configuration: ChartConfiguration = {
