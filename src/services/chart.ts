@@ -2,6 +2,7 @@ import { createCanvas } from '@napi-rs/canvas';
 import { Chart, ChartConfiguration } from 'chart.js';
 import { format } from 'date-fns';
 import { Logger } from '../utils/logger';
+import { ensureFontsLoaded, DEFAULT_FONT_FAMILY } from './fonts';
 
 interface ChartData {
   times: string[];
@@ -26,6 +27,9 @@ export class ChartService {
 
       // Import Chart.js v3 with configuration
       const { Chart: ChartJS } = await import('./chart-config');
+
+      // Ensure fonts are available in serverless envs (Vercel)
+      await ensureFontsLoaded();
       
       // Create background gradients with more vibrant colors
       const redZoneGradient = ctx.createLinearGradient(0, 0, 0, height);
@@ -116,7 +120,7 @@ export class ChartService {
               text: 'Bitcoin MVRV - Últimos 180 dias',
               font: {
                 size: 20,
-                family: 'Arial',
+                family: DEFAULT_FONT_FAMILY,
                 weight: 'bold'
               },
               color: '#000000',  // Pure black for text
@@ -134,7 +138,7 @@ export class ChartService {
               },
               ticks: {
                 font: {
-                  family: 'Arial',
+                  family: DEFAULT_FONT_FAMILY,
                   weight: 'bold'
                 },
                 color: '#000000'  // Pure black for text
@@ -146,7 +150,7 @@ export class ChartService {
               },
               ticks: {
                 font: {
-                  family: 'Arial',
+                  family: DEFAULT_FONT_FAMILY,
                   size: 10,
                   weight: 'bold'
                 },
