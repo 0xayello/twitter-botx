@@ -1,14 +1,5 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: ['@napi-rs/canvas']
-  },
-  webpack: (config) => {
-    config.externals.push({
-      canvas: 'canvas'
-    });
-    return config;
-  }
-};
-
-module.exports = nextConfig; 
+/**
+ * Mantemos a configuração padrão do Next.js para permitir que a Vercel
+ * detecte automaticamente as rotas de API. Sem customizações aqui.
+ */
+module.exports = {};
