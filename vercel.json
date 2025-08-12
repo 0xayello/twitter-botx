@@ -1,6 +1,32 @@
 {
-  "crons": [{
-    "path": "/api/cron",
-    "schedule": "0 20 * * 3,6"
-  }]
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/pages/api/**/*.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/health",
+      "dest": "/api/health"
+    },
+    {
+      "src": "/api/test-chart",
+      "dest": "/api/test-chart"
+    },
+    {
+      "src": "/api/cron",
+      "dest": "/api/cron"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "0 20 * * 3,6"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
 } 

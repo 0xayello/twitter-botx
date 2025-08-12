@@ -24,7 +24,8 @@ export class ChartService {
       const canvas = createCanvas(width, height);
       const ctx = canvas.getContext('2d');
 
-      const { Chart: ChartJS } = await import('chart.js/auto');
+      // Import Chart.js v3 with configuration
+      const { Chart: ChartJS } = await import('./chart-config');
       
       // Create background gradients with more vibrant colors
       const redZoneGradient = ctx.createLinearGradient(0, 0, 0, height);
@@ -115,8 +116,8 @@ export class ChartService {
               text: 'Bitcoin MVRV - Últimos 180 dias',
               font: {
                 size: 20,
-                family: 'Comic Sans MS',
-                weight: 'bold'  // Make font bolder
+                family: 'Arial',
+                weight: 'bold'
               },
               color: '#000000',  // Pure black for text
               padding: 20
@@ -133,8 +134,8 @@ export class ChartService {
               },
               ticks: {
                 font: {
-                  family: 'Comic Sans MS',
-                  weight: 'bold'  // Make font bolder
+                  family: 'Arial',
+                  weight: 'bold'
                 },
                 color: '#000000'  // Pure black for text
               }
@@ -145,9 +146,9 @@ export class ChartService {
               },
               ticks: {
                 font: {
-                  family: 'Comic Sans MS',
+                  family: 'Arial',
                   size: 10,
-                  weight: 'bold'  // Make font bolder
+                  weight: 'bold'
                 },
                 color: '#000000',  // Pure black for text
                 maxRotation: 45,
@@ -157,7 +158,7 @@ export class ChartService {
                   const date = new Date(data.times[index]);
                   
                   // Show only first day of each month
-                  return date.getDate() === 1 ? format(date, 'dd/MM') : '';
+                  return date.getDate() === 1 ? format(date, 'MMM') : '';
                 }
               }
             }
@@ -165,8 +166,8 @@ export class ChartService {
         }
       };
 
-      // @ts-ignore - Canvas context type mismatch, but it works
-      new ChartJS(ctx, configuration);
+      // Create chart with proper context
+      new ChartJS(ctx as any, configuration);
 
       const buffer = canvas.toBuffer('image/png');
       Logger.info('Chart generated successfully');
